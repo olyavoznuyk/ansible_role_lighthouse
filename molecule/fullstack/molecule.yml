@@ -1,0 +1,30 @@
+---
+dependency:
+  name: galaxy
+  options:
+    requirements-file: molecule/shared/collections.yml
+    role-file: molecule/fullstack/requirements.yml
+driver:
+  name: podman
+lint: |
+  set -e
+  ansible-lint . --exclude ./.tox/ --exclude ./.git/
+platforms:
+
+  - name: fullstack_ubuntu
+    groups:
+      - fullstack
+    image: ubuntu:22.04
+    dockerfile: ../resources/Dockerfile.j2
+    privileged: true
+    cgroupns_mode: host
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    command: /sbin/init
+
+provisioner:
+  name: ansible
+  options:
+    D: True
+verifier:
+  name: ansible

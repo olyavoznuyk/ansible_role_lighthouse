@@ -1,0 +1,10 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: lighthouse
+  gather_facts: false
+  tasks:
+    - name: VERIFY | Check Lighthouse (GET status 200)
+      ansible.builtin.uri:
+        url: "http://0.0.0.0:80"
